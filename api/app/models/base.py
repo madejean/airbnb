@@ -2,7 +2,7 @@ from peewee import *
 import config as cfg
 from datetime import datetime
 
-mysql_db = MySQLDatabase(cfg.DATABASE['database'], cfg.DATABASE['host'], cfg.DATABASE['port'], cfg.DATABASE['user'], cfg.DATABASE['password'])
+mysql_db = MySQLDatabase(database=cfg.DATABASE['database'], host=cfg.DATABASE['host'], port=cfg.DATABASE['port'], user=cfg.DATABASE['user'], password=cfg.DATABASE['password'], charset=cfg.DATABASE['charset'])
 datetime = "{:%Y/%m/%d %H:%M:%S}".format(datetime.now())
 
 class BaseModel(Model):
