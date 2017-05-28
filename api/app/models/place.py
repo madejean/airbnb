@@ -1,5 +1,7 @@
 from peewee import *
 from base import BaseModel
+from user import User
+from city import City
 
 class Place(BaseModel):
     owner = ForeignKeyField(User, related_name="places")

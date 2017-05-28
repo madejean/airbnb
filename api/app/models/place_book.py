@@ -1,5 +1,7 @@
 from peewee import *
 from base import BaseModel
+from place import Place
+from user import User
 
 class PlaceBook(BaseModel):
     place = ForeignKeyField(Place)
