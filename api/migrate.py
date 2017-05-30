@@ -9,7 +9,6 @@ from app.models.place_book import PlaceBook
 from app.models.amenity import Amenity
 from app.models.place_amenity import PlaceAmenities
 
-
 mysql_db = MySQLDatabase(database=cfg.DATABASE['database'], host=cfg.DATABASE['host'], port=cfg.DATABASE['port'], user=cfg.DATABASE['user'], password=cfg.DATABASE['password'], charset=cfg.DATABASE['charset'])
 
 def create_tables():
