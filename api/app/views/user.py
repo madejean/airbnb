@@ -10,7 +10,7 @@ def users():
         users = User.select()
         for user in users:
             user_list.append(user.to_hash())
-            return jsonify(user_list)
+        return jsonify(user_list)
 
     elif request.method == 'POST':
         #create new user
@@ -18,7 +18,6 @@ def users():
         post_last_name = request.form['last_name']
         post_email = request.form['email']
         post_password = request.form['password']
-        post_is_admin = request.form['is_admin']
         users = User.select()
         for user in users:
             if user.email == post_email:
@@ -28,14 +27,13 @@ def users():
                 }
                 res = jsonify(message)
                 res.status_code = 409
-
-            return res
+                return res
 
         else:
             new_user = User.create(first_name=post_first_name, last_name=post_last_name, email=post_email, password=post_password)
             return jsonify(new_user.to_hash())
 
-@app.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/users/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
 def user_id(user_id):
     if request.method == 'GET':
         #get user with id
@@ -44,17 +42,20 @@ def user_id(user_id):
 
     if request.method == 'PUT':
         #update user with id
-        put_first_name = request.form['first_name']
-        put_last_name = request.form['last_name']
-        put_is_admin = request.form['is_admin']
-        put_password = request.form['password']
-        users = User.select()
-        for user in users:
-            if user.first_name != put_first_name:
-                User.update(first_name=put_first_name).where(User.id == user_id)
-            if user.last_name != put_last_name:
-                User.update(last_name=put_last_name).where(User.id == uesr_id)
-            if user.is_admin != put_is_admin:
-                User.update(is_admin=put_is_admin).where(User.id == user_id)
+        try:
+            update_user = User.update(first_name=request.form['first_name']).where(User.id == user_id)
+            update_user.execute()
+        except:
+            pass
+        try:
+            update_user = User.update(last_name=request.form['last_name']).where(User.id == user_id)
+            update_user.execute()
+        except:
+            pass
         updated_user = User.get(User.id == user_id)
-        return jsonify(user.to_hash())
+        return jsonify(updated_user.to_hash())
+
+    elif request.method == 'DELETE':
+        user = User.get(User.id == user_id)
+        user.delete_instance()
+        return 'User %s deleted \n' % user_id
