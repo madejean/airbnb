@@ -16,11 +16,12 @@ class User(BaseModel):
 
     def to_hash(self):
         data = {
+            'id': self.id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
-            'is_admin': self.is_admin,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'is_admin': self.is_admin
         }
         return data
