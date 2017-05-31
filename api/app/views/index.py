@@ -1,5 +1,5 @@
 from app import app
-from flask_json import FlaskJSON, JsonError, json_response, as_json
+from flask import jsonify
 from datetime import datetime
 from app.models.base import mysql_db
 
@@ -7,7 +7,12 @@ from app.models.base import mysql_db
 def index():
     utc = datetime.utcnow()
     serverTime = datetime.now()
-    return json_response(status="OK", utc_time=utc, time=serverTime)
+    message = {
+        'status': 'OK',
+        'utc_time': utc,
+        'time': serverTime
+    }
+    return jsonify(message)
 
 @app.before_request
 def before_request():
@@ -19,5 +24,12 @@ def after_request(response):
     return response
 
 @app.errorhandler(404)
-def not_found():
-    return json_response(status="404", message="not found")
+def not_found(error=None):
+    message = {
+            'code': 404,
+            'message': 'Not Found: ',
+    }
+    res = jsonify(message)
+    res.status_code = 404
+
+    return res

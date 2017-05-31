@@ -2,7 +2,6 @@ import os
 
 AIRBNB_ENV = os.environ.get('AIRBNB_ENV')
 
-
 if AIRBNB_ENV == 'production':
     DEBUG = False
     HOST = "0.0.0.0"
