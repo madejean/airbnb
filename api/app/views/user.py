@@ -6,11 +6,11 @@ from app.models.user import User
 def users():
     if request.method == 'GET':
         #get list users
-        user_list = []
+        users_list = []
         users = User.select()
         for user in users:
-            user_list.append(user.to_hash())
-        return jsonify(user_list)
+            users_list.append(user.to_hash())
+        return jsonify(users_list)
 
     elif request.method == 'POST':
         #create new user
@@ -23,7 +23,7 @@ def users():
             if user.email == post_email:
                 message = {
                     'code': 10000,
-                    'message': 'User already exists',
+                    'msg': 'User already exists',
                 }
                 res = jsonify(message)
                 res.status_code = 409
@@ -33,7 +33,7 @@ def users():
             new_user = User.create(first_name=post_first_name, last_name=post_last_name, email=post_email, password=post_password)
             return jsonify(new_user.to_hash())
 
-@app.route('/users/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'])
 def user_id(user_id):
     if request.method == 'GET':
         #get user with id
